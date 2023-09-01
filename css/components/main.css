@@ -1,0 +1,8 @@
+.items-task {
+  align-items: center;
+}
+
+.item-date {
+  margin-left: 25px;
+  font-size: 13px;
+}
