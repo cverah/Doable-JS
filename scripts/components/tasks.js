@@ -1,6 +1,7 @@
 import dataTask from "../data-task.js";
 import DOMHandler from "../dom-handler.js";
 import { createTask, updateTask } from "../services/tasks-services.js";
+
 import { input } from "./input.js";
 
 function listenAddTask() {
@@ -8,7 +9,6 @@ function listenAddTask() {
   submitAddTask.addEventListener("submit", async (event) => {
     try {
       event.preventDefault();
-      console.log("click");
       const { txt_nameTask, txt_date } = event.target.elements;
       const newTask = {
         title: txt_nameTask.value,
@@ -58,9 +58,7 @@ function actionsTasks() {
 
       //console.log(datacompleted);
       //actualizar en api fetch
-
       const task = await updateTask(id, datacompleted);
-      console.log(task);
       //actualizar en store
       //console.log(tagName);
       dataTask.updateDataTask(task);
@@ -73,11 +71,93 @@ function actionsTasks() {
   });
 }
 
+function optionsDataTask() {
+  const optionTask = document.querySelector(".js-options-dataTask");
+
+  const checkPending = document.querySelector(".js-check-pending");
+  const checkImportant = document.querySelector(".js-check-important");
+  checkPending.addEventListener("change", (event) => {
+    try {
+      event.preventDefault();
+      event.target.checked
+        ? (dataTask.currentCheckPending = "pending")
+        : (dataTask.currentCheckPending = null); //
+    } catch (error) {
+      console.log(error);
+    }
+
+    //DOMHandler.reload();
+  });
+
+  checkImportant.addEventListener("change", (event) => {
+    event.target.checked
+      ? (dataTask.currentCheckImportant = "important")
+      : (dataTask.currentCheckImportant = null); //
+  });
+
+  optionTask.addEventListener("change", (event) => {
+    //console.dir(event.target.tagName);
+    try {
+      event.preventDefault();
+      const tagName = event.target.tagName;
+      if (tagName !== "INPUT" && tagName !== "SELECT") return;
+
+      if (tagName === "SELECT") dataTask.currentSelect = event.target.value;
+      const dataOption = {
+        select: dataTask.currentSelect,
+        checkPending: dataTask.currentCheckPending,
+        checkImportant: dataTask.currentCheckImportant,
+      };
+      //console.log(dataOption);
+      dataTask.orderOption(dataOption);
+    } catch (error) {
+      console.log(error);
+    }
+    DOMHandler.reload();
+  });
+}
+
+function renderOption() {
+  return `
+    <div class="flex flex-column gap-4 js-options-dataTask">
+      <div class="flex gap-8 items-center">
+        <label> Select </label>
+        <select class="select select__input js-selected" name="select" id="">
+          <option value="order" ${
+            dataTask.currentSelect === "order" ? "selected" : ""
+          }>Alphabetical (a-z)</option>
+          <option value="due-date"  ${
+            dataTask.currentSelect === "due-date" ? "selected" : ""
+          }>Due Date</option>
+          <option value="importance"  ${
+            dataTask.currentSelect === "importance" ? "selected" : ""
+          }>Importance</option>
+        </select>
+      </div>
+      <div class="flex gap-8 items-center">
+        <label> Show </label>
+        <div class="checkbox">
+          <input type="checkbox" id="cb-pending" class="checkbox__input js-check-pending" ${
+            dataTask.currentCheckPending ? "checked" : ""
+          }/>
+          <label for="cb-pending"> Only Pending</label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="cb-important" class="checkbox__input js-check-important" ${
+              dataTask.currentCheckImportant ? "checked" : ""
+            } /> 
+            <label for="cb-important"> Only Important </label>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderTask() {
   const tasks = dataTask.tasks;
-  console.log(tasks);
   return `
-   
+    ${renderOption()}
     <br>
     <div class="flex flex-column gap-4 js-list-tasks">
     ${tasks
@@ -129,7 +209,6 @@ function renderTask() {
         })}
         <button type="submit" class="button button--primary">Add Task</button>
     </form>  
-      
   `;
 }
 const Task = {
@@ -139,6 +218,7 @@ const Task = {
   addListeners() {
     listenAddTask();
     actionsTasks();
+    optionsDataTask();
   },
 };
 
