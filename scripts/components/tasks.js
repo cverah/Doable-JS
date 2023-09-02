@@ -1,6 +1,6 @@
 import dataTask from "../data-task.js";
 import DOMHandler from "../dom-handler.js";
-import { createTask } from "../services/tasks-services.js";
+import { createTask, updateTask } from "../services/tasks-services.js";
 import { input } from "./input.js";
 
 function listenAddTask() {
@@ -24,6 +24,50 @@ function listenAddTask() {
     } catch (error) {
       console.log(error);
     }
+    //reload
+    DOMHandler.reload();
+  });
+}
+
+function findData(id) {
+  const { important } = dataTask.tasks.find((task) => task.id === id);
+  return important;
+}
+
+function actionsTasks() {
+  const listTask = document.querySelector(".js-list-tasks");
+  listTask.addEventListener("click", async (event) => {
+    try {
+      //event.preventDefault();
+      const domCaptured = event.target.closest("[data-id]");
+      if (!domCaptured) return;
+
+      const tagName = domCaptured.tagName;
+      // const img = event.target.closest("[data-img]");
+      // console.log(img);
+
+      if (tagName !== "DIV" && tagName !== "INPUT") return;
+      const id = Number(domCaptured.dataset.id);
+      let isCompleted = false;
+      let isImportant = findData(id);
+      if (event.target.checked) isCompleted = !isCompleted;
+      if (tagName === "DIV") isImportant = !isImportant;
+      const datacompleted = {};
+      if (tagName === "INPUT") datacompleted["completed"] = isCompleted;
+      if (tagName === "DIV") datacompleted["important"] = isImportant;
+
+      //console.log(datacompleted);
+      //actualizar en api fetch
+
+      const task = await updateTask(id, datacompleted);
+      console.log(task);
+      //actualizar en store
+      //console.log(tagName);
+      dataTask.updateDataTask(task);
+    } catch (error) {
+      console.log(error);
+    }
+
     //reload
     DOMHandler.reload();
   });
@@ -94,6 +138,7 @@ const Task = {
   },
   addListeners() {
     listenAddTask();
+    actionsTasks();
   },
 };
 
