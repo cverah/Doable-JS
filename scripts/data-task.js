@@ -6,10 +6,13 @@ async function getTasks() {
   console.log(tasks);
 }
 
+function addTask(data) {
+  this.tasks.push(data);
+}
 const dataTask = {
   user: null,
   tasks: [],
-
+  addTask,
   getTasks,
 };
 export default dataTask;

@@ -1,4 +1,33 @@
 import dataTask from "../data-task.js";
+import DOMHandler from "../dom-handler.js";
+import { createTask } from "../services/tasks-services.js";
+import { input } from "./input.js";
+
+function listenAddTask() {
+  const submitAddTask = document.querySelector(".js-add-task");
+  submitAddTask.addEventListener("submit", async (event) => {
+    try {
+      event.preventDefault();
+      console.log("click");
+      const { txt_nameTask, txt_date } = event.target.elements;
+      const newTask = {
+        title: txt_nameTask.value,
+        due_date: txt_date.value,
+      };
+      //console.log(dataTask);
+
+      //insert en api
+      const task = await createTask(newTask);
+      //insert en dataTask
+      dataTask.addTask(task);
+      //dataTask.shortAlphabetic();
+    } catch (error) {
+      console.log(error);
+    }
+    //reload
+    DOMHandler.reload();
+  });
+}
 
 function renderTask() {
   const tasks = dataTask.tasks;
@@ -42,6 +71,20 @@ function renderTask() {
       .join("")}
       </div>
       <br>
+    <form class="flex flex-column gap-4 js-add-task">  
+        ${input({
+          id: "txt_nameTask",
+          placeholder: "do the dishes...",
+          required: true,
+        })}
+
+        ${input({
+          id: "txt_date",
+          type: "date",
+          placeholder: "mm / dd / yy",
+        })}
+        <button type="submit" class="button button--primary">Add Task</button>
+    </form>  
       
   `;
 }

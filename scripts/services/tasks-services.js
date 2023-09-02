@@ -5,4 +5,9 @@ async function listTasks() {
   return tasks;
 }
 
-export { listTasks };
+async function createTask(newTask = { title, due_date }) {
+  const task = await apiFetch("/tasks", { body: newTask });
+  return task;
+}
+
+export { listTasks, createTask };
