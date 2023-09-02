@@ -1,6 +1,6 @@
 import { tokenKey } from "../config.js";
 
-export function header() {
+function header() {
   const token = sessionStorage.getItem(tokenKey);
   return `
   <header class="section-xs bg-gray-200">
@@ -26,3 +26,5 @@ export function header() {
  
   `;
 }
+
+export { header };

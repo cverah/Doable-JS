@@ -1,9 +1,40 @@
-//Template Module
+import { header } from "../components/headers.js";
+import DOMHandler from "../dom-handler.js";
+import { logout } from "../services/sessions-services.js";
+import { LoginPage } from "./login-page.js";
+
+function listenlogout() {
+  const ancorLogout = document.querySelector(".js-logout");
+  ancorLogout.addEventListener("click", async (event) => {
+    try {
+      event.preventDefault();
+      await logout();
+
+      DOMHandler.load(LoginPage);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+function renderHomePage() {
+  //dataTask.shortAlphabetic();
+  return `
+    ${header()}
+    <main class="section-sm">
+      <section class="container"> 
+      
+      </section>
+    </main>
+  `;
+}
 const HomePage = {
   toString() {
-    return "<h2>Aqui Home Page</h2>";
+    return renderHomePage();
   },
-  addListeners() {},
+  addListeners() {
+    listenlogout();
+  },
 };
 
 export { HomePage };
