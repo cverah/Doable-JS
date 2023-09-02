@@ -3,6 +3,7 @@ import { input } from "../components/input.js";
 
 import DOMHandler from "../dom-handler.js";
 import { login } from "../services/sessions-services.js";
+import { HomePage } from "./home-page.js";
 
 function renderLogin() {
   const { loginError } = LoginPage.state;
@@ -46,24 +47,13 @@ function listenSubmitLogin() {
         password: txt_password.value,
       };
       const user = await login(formData);
-      //dataTask.user = user;
-      await dataTask.getTasks();
-      dataTask.shortAlphabetic();
-      //console.log(dataTask);
-      //DOMHandler.load(HomePage);
+
+      DOMHandler.load(HomePage);
     } catch (error) {
       //console.log(error);
       LoginPage.state.loginError = error.message;
     }
     DOMHandler.reload();
-  });
-}
-
-function listenCreateAccount() {
-  const ancorCreateAccount = document.querySelector(".js-create-account");
-  ancorCreateAccount.addEventListener("click", (event) => {
-    event.preventDefault();
-    //DOMHandler.load(AccountPage);
   });
 }
 
@@ -73,7 +63,6 @@ const LoginPage = {
   },
   addListeners() {
     listenSubmitLogin();
-    listenCreateAccount();
   },
   state: {
     loginError: null,

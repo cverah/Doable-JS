@@ -10,10 +10,8 @@ async function init() {
     //console.log(token);
     if (!token) return DOMHandler.load(LoginPage);
     sessionStorage.getItem(currentUser);
-    //await dataTask.getTasks();
-    //dataTask.shortAlphabetic();
-    //console.log(dataTask);
-    //DOMHandler.load(HomePage);
+
+    DOMHandler.load(HomePage);
   } catch (error) {
     console.log(error.message);
     sessionStorage.removeItem(tokenKey);
