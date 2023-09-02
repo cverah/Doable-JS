@@ -19,7 +19,7 @@ function listenlogout() {
 }
 
 function renderHomePage() {
-  // dataTask.shortAlphabetic();
+  // dataTasks.shortAlphabetic();
   return `
     ${header()}
     <main class="section-sm">

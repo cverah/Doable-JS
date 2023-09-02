@@ -7,7 +7,7 @@ async function getTasks() {
 function addTask(data) {
   this.tasks.push(data);
 }
-function updateDataTask(data) {
+function updatedataTasks(data) {
   const position = this.tasks.findIndex((task) => task.id === data.id);
   this.tasks.splice(position, 1, data);
 }
@@ -55,7 +55,7 @@ async function orderOption(dataOption) {
   await this.getTasks();
 }
 
-const dataTask = {
+const dataTasks = {
   user: null,
   tasks: [],
   currentSelect: "order",
@@ -63,8 +63,8 @@ const dataTask = {
   currentCheckPending: null,
   getTasks,
   addTask,
-  updateDataTask,
+  updatedataTasks,
   shortAlphabetic,
   orderOption,
 };
-export default dataTask;
+export default dataTasks;

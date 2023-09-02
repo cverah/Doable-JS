@@ -12,11 +12,11 @@ async function createTask(newTask = { title, due_date }) {
 
 async function updateTask(
   id,
-  dataTask = { title, due_date, important, completed }
+  dataTasks = { title, due_date, important, completed }
 ) {
   const task = await apiFetch(`/tasks/${id}`, {
     method: "PATCH",
-    body: dataTask,
+    body: dataTasks,
   });
   return task;
 }

@@ -1,4 +1,4 @@
-import dataTask from "../data-task.js";
+import dataTasks from "../data-tasks.js";
 import DOMHandler from "../dom-handler.js";
 import { createTask, updateTask } from "../services/tasks-services.js";
 
@@ -14,13 +14,13 @@ function listenAddTask() {
         title: txt_nameTask.value,
         due_date: txt_date.value,
       };
-      //console.log(dataTask);
+      //console.log(dataTasks);
 
       //insert en api
       const task = await createTask(newTask);
-      //insert en dataTask
-      dataTask.addTask(task);
-      //dataTask.shortAlphabetic();
+      //insert en dataTasks
+      dataTasks.addTask(task);
+      //dataTasks.shortAlphabetic();
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +30,7 @@ function listenAddTask() {
 }
 
 function findData(id) {
-  const { important } = dataTask.tasks.find((task) => task.id === id);
+  const { important } = dataTasks.tasks.find((task) => task.id === id);
   return important;
 }
 
@@ -61,7 +61,7 @@ function actionsTasks() {
       const task = await updateTask(id, datacompleted);
       //actualizar en store
       //console.log(tagName);
-      dataTask.updateDataTask(task);
+      dataTasks.updatedataTasks(task);
     } catch (error) {
       console.log(error);
     }
@@ -71,8 +71,8 @@ function actionsTasks() {
   });
 }
 
-function optionsDataTask() {
-  const optionTask = document.querySelector(".js-options-dataTask");
+function optionsdataTasks() {
+  const optionTask = document.querySelector(".js-options-dataTasks");
 
   const checkPending = document.querySelector(".js-check-pending");
   const checkImportant = document.querySelector(".js-check-important");
@@ -80,8 +80,8 @@ function optionsDataTask() {
     try {
       event.preventDefault();
       event.target.checked
-        ? (dataTask.currentCheckPending = "pending")
-        : (dataTask.currentCheckPending = null); //
+        ? (dataTasks.currentCheckPending = "pending")
+        : (dataTasks.currentCheckPending = null); //
     } catch (error) {
       console.log(error);
     }
@@ -91,8 +91,8 @@ function optionsDataTask() {
 
   checkImportant.addEventListener("change", (event) => {
     event.target.checked
-      ? (dataTask.currentCheckImportant = "important")
-      : (dataTask.currentCheckImportant = null); //
+      ? (dataTasks.currentCheckImportant = "important")
+      : (dataTasks.currentCheckImportant = null); //
   });
 
   optionTask.addEventListener("change", (event) => {
@@ -102,14 +102,14 @@ function optionsDataTask() {
       const tagName = event.target.tagName;
       if (tagName !== "INPUT" && tagName !== "SELECT") return;
 
-      if (tagName === "SELECT") dataTask.currentSelect = event.target.value;
+      if (tagName === "SELECT") dataTasks.currentSelect = event.target.value;
       const dataOption = {
-        select: dataTask.currentSelect,
-        checkPending: dataTask.currentCheckPending,
-        checkImportant: dataTask.currentCheckImportant,
+        select: dataTasks.currentSelect,
+        checkPending: dataTasks.currentCheckPending,
+        checkImportant: dataTasks.currentCheckImportant,
       };
       //console.log(dataOption);
-      dataTask.orderOption(dataOption);
+      dataTasks.orderOption(dataOption);
     } catch (error) {
       console.log(error);
     }
@@ -119,18 +119,18 @@ function optionsDataTask() {
 
 function renderOption() {
   return `
-    <div class="flex flex-column gap-4 js-options-dataTask">
+    <div class="flex flex-column gap-4 js-options-dataTasks">
       <div class="flex gap-8 items-center">
         <label> Select </label>
         <select class="select select__input js-selected" name="select" id="">
           <option value="order" ${
-            dataTask.currentSelect === "order" ? "selected" : ""
+            dataTasks.currentSelect === "order" ? "selected" : ""
           }>Alphabetical (a-z)</option>
           <option value="due-date"  ${
-            dataTask.currentSelect === "due-date" ? "selected" : ""
+            dataTasks.currentSelect === "due-date" ? "selected" : ""
           }>Due Date</option>
           <option value="importance"  ${
-            dataTask.currentSelect === "importance" ? "selected" : ""
+            dataTasks.currentSelect === "importance" ? "selected" : ""
           }>Importance</option>
         </select>
       </div>
@@ -138,14 +138,14 @@ function renderOption() {
         <label> Show </label>
         <div class="checkbox">
           <input type="checkbox" id="cb-pending" class="checkbox__input js-check-pending" ${
-            dataTask.currentCheckPending ? "checked" : ""
+            dataTasks.currentCheckPending ? "checked" : ""
           }/>
           <label for="cb-pending"> Only Pending</label>
         </div>
         <div class="checkbox">
           <label>
             <input type="checkbox" id="cb-important" class="checkbox__input js-check-important" ${
-              dataTask.currentCheckImportant ? "checked" : ""
+              dataTasks.currentCheckImportant ? "checked" : ""
             } /> 
             <label for="cb-important"> Only Important </label>
         </div>
@@ -155,7 +155,7 @@ function renderOption() {
 }
 
 function renderTask() {
-  const tasks = dataTask.tasks;
+  const tasks = dataTasks.tasks;
   return `
     ${renderOption()}
     <br>
@@ -218,7 +218,7 @@ const Task = {
   addListeners() {
     listenAddTask();
     actionsTasks();
-    optionsDataTask();
+    optionsdataTasks();
   },
 };
 

@@ -1,6 +1,6 @@
 import { header } from "../components/headers.js";
 import { input } from "../components/input.js";
-import dataTask from "../data-task.js";
+import dataTasks from "../data-tasks.js";
 import DOMHandler from "../dom-handler.js";
 import { login } from "../services/sessions-services.js";
 import { AccountPage } from "./create-account-page.js";
@@ -50,7 +50,7 @@ function listenSubmitLogin() {
         password: txt_password.value,
       };
       const user = await login(formData);
-      await dataTask.getTasks();
+      await dataTasks.getTasks();
       DOMHandler.load(HomePage);
     } catch (error) {
       //console.log(error);
