@@ -1,5 +1,6 @@
 import { header } from "../components/headers.js";
 import { input } from "../components/input.js";
+import dataTask from "../data-task.js";
 import DOMHandler from "../dom-handler.js";
 import { login } from "../services/sessions-services.js";
 import { AccountPage } from "./create-account-page.js";
@@ -19,6 +20,7 @@ function renderLogin() {
         placeholder: "you@example.com",
         type: "email",
         required: true,
+        value: "mverah@mail.com",
       })}
 
       ${input({
@@ -26,6 +28,7 @@ function renderLogin() {
         id: "txt_password",
         type: "password",
         required: true,
+        value: "123456",
       })}
     
       <button type="submit" class="button button--primary">Login</button>
@@ -47,13 +50,13 @@ function listenSubmitLogin() {
         password: txt_password.value,
       };
       const user = await login(formData);
-
+      await dataTask.getTasks();
       DOMHandler.load(HomePage);
     } catch (error) {
       //console.log(error);
       LoginPage.state.loginError = error.message;
     }
-    DOMHandler.reload();
+    //DOMHandler.reload();
   });
 }
 

@@ -1,4 +1,5 @@
 import { header } from "../components/headers.js";
+import { Task } from "../components/tasks.js";
 import DOMHandler from "../dom-handler.js";
 import { logout } from "../services/sessions-services.js";
 import { LoginPage } from "./login-page.js";
@@ -18,12 +19,12 @@ function listenlogout() {
 }
 
 function renderHomePage() {
-  //dataTask.shortAlphabetic();
+  // dataTask.shortAlphabetic();
   return `
     ${header()}
     <main class="section-sm">
       <section class="container"> 
-      
+      ${Task}
       </section>
     </main>
   `;
