@@ -1,8 +1,8 @@
 import { header } from "../components/headers.js";
 import { input } from "../components/input.js";
-
 import DOMHandler from "../dom-handler.js";
 import { login } from "../services/sessions-services.js";
+import { AccountPage } from "./create-account-page.js";
 import { HomePage } from "./home-page.js";
 
 function renderLogin() {
@@ -57,12 +57,21 @@ function listenSubmitLogin() {
   });
 }
 
+function listenCreateAccount() {
+  const ancorCreateAccount = document.querySelector(".js-create-account");
+  ancorCreateAccount.addEventListener("click", (event) => {
+    event.preventDefault();
+    DOMHandler.load(AccountPage);
+  });
+}
+
 const LoginPage = {
   toString() {
     return renderLogin();
   },
   addListeners() {
     listenSubmitLogin();
+    listenCreateAccount();
   },
   state: {
     loginError: null,
