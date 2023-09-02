@@ -1,6 +1,7 @@
 import dataTasks from "../data-tasks.js";
 import DOMHandler from "../dom-handler.js";
 import { createTask, updateTask } from "../services/tasks-services.js";
+import { formatDate } from "./format-time.js";
 
 import { input } from "./input.js";
 
@@ -186,7 +187,7 @@ function renderTask() {
             </div>
             <div class="item-date">
               <label>
-                ${task.due_date ? task.due_date : ""}
+                ${task.due_date ? formatDate(task.due_date) : ""}
               </label>
             </div>
           </div>

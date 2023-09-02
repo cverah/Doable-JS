@@ -7,7 +7,6 @@ import { LoginPage } from "./scripts/pages/login-page.js";
 async function init() {
   try {
     const token = sessionStorage.getItem(tokenKey);
-    //console.log(token);
     if (!token) return DOMHandler.load(LoginPage);
     dataTasks.user = sessionStorage.getItem(currentUser);
     await dataTasks.getTasks();

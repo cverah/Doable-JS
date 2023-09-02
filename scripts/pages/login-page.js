@@ -20,7 +20,6 @@ function renderLogin() {
         placeholder: "you@example.com",
         type: "email",
         required: true,
-        value: "mverah@mail.com",
       })}
 
       ${input({
@@ -28,7 +27,6 @@ function renderLogin() {
         id: "txt_password",
         type: "password",
         required: true,
-        value: "123456",
       })}
     
       <button type="submit" class="button button--primary">Login</button>
@@ -51,9 +49,9 @@ function listenSubmitLogin() {
       };
       const user = await login(formData);
       await dataTasks.getTasks();
+      dataTasks.shortAlphabetic();
       DOMHandler.load(HomePage);
     } catch (error) {
-      //console.log(error);
       LoginPage.state.loginError = error.message;
     }
     //DOMHandler.reload();
